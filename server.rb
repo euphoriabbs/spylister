@@ -4,6 +4,7 @@
 require 'rubygems'
 require 'redis'
 require 'json'
+require 'yaml'
 
 require 'sinatra'
 require 'sinatra/contrib/all'

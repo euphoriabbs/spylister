@@ -2,9 +2,13 @@
 # -*- encoding: utf-8 -*-
 
 require 'rubygems'
-require 'sinatra'
 require 'redis'
 require 'json'
+
+require 'sinatra'
+require 'sinatra/contrib/all'
+
+config_file 'spylister.yml'
 
 redis = Redis.new
 

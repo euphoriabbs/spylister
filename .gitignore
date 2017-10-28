@@ -4,3 +4,4 @@ python_modules
 .git
 *.log
 *.bak
+dump.rdb

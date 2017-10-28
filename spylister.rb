@@ -16,10 +16,15 @@ enable  :sessions, :logging
 
 set :environment, :development
 
-post '/' do
+post '/api/v0/filelist' do
     redis.set 'foo', [1,2,3,4,5].to_json;
 end
 
-get '/' do
-    JSON.parse redis.get('foo');
+get '/api/v0/filelist' do
+    if params['format'] == "json"
+        JSON.parse redis.keys '*'.to_json;
+    end
+    if params['format'] == "yaml"
+        JSON.parse redis.keys '*'.to_yaml;
+    end
 end

@@ -1,2 +1,5 @@
-# filex
-A way to share files between bulletin board systems.
+# spylister
+Network file areas across bulletin board systems
+
+# License
+MIT

@@ -1,0 +1,6 @@
+.vscode
+node_modules
+python_modules
+.git
+*.log
+*.bak

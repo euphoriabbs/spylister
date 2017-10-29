@@ -1,2 +1,2 @@
-development:
-  path: "/docs"
+name: "Default SpyLister Server"
+description: "The Default File Network Configuration"

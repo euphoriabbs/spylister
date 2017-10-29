@@ -1,4 +1,5 @@
-"use strict"
+
+"use strict";
 
 load("http.js");
 load("modopts.js");
@@ -19,7 +20,7 @@ var SpyLister = function() {
     };
 
     this.filelist = function(path) {
-        return getJSON("/filelist")
+        return getJSON("/filelist");
     };
 };
 

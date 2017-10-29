@@ -1,15 +1,14 @@
 #!/usr/bin/env ruby
 # -*- encoding: utf-8 -*-
 
-require 'rubygems'
-require 'redis'
-require 'json'
-require 'yaml'
+require "rubygems"
+require "redis"
+require "json"
 
-require 'sinatra'
-require 'sinatra/contrib/all'
+require "sinatra"
+require "sinatra/contrib/all"
 
-config_file 'spylister.yml'
+config_file "server.yml"
 
 redis = Redis.new
 
@@ -17,15 +16,28 @@ enable  :sessions, :logging
 
 set :environment, :development
 
-redis.set 'foo', [1,2,3,4,5].to_json;
+redis.set "foo", [
+    { :name => "something1.zip", :size => 1232},
+    { :name => "something2.zip", :size => 1232},
+    { :name => "something3.zip", :size => 1232},
+    { :name => "something4.zip", :size => 1232},
+    { :name => "something5.zip", :size => 1232}
+].to_json
 
-post '/api/v0/filelist' do
-    #redis.set 'foo', [1,2,3,4,5].to_json;
+redis.set "euphoria", [
+    { :name => "something1.zip", :size => 1232},
+    { :name => "something2.zip", :size => 1232},
+    { :name => "something3.zip", :size => 1232},
+    { :name => "something4.zip", :size => 1232},
+    { :name => "something5.zip", :size => 1232}
+].to_json
+
+get "/api/v0/systems" do
+    content_type :json
+    redis.keys("*").to_json
 end
 
-get '/api/v0/filelist' do
-    for bbs in redis.keys('*') do
-        puts "#{bbs.to_json}"
-        "#{JSON.parse redis.get bbs}"
-    end
+get "/api/v0/systems/:system" do
+    content_type :json
+    redis.get(params["system"])
 end

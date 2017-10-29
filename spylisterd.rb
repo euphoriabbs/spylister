@@ -8,7 +8,7 @@ require "json"
 require "sinatra"
 require "sinatra/contrib/all"
 
-config_file "server.yml"
+config_file "spylisterd.yml"
 
 redis = Redis.new
 

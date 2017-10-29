@@ -30,7 +30,7 @@ $r = RestClient.get "http://138.197.173.20:4567/api/v0/getsystems"
 $systems = JSON.parse $r.body
 
 $systems.each do |name|
-    $r = RestClient.get "http://localhost:4567/api/v0/getsystem/#{name}"
+    $r = RestClient.get "http://138.197.173.20:4567/api/v0/getsystem/#{name}"
 
     puts name
 

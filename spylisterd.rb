@@ -23,7 +23,13 @@ redis.set "foo", [
     { :name => "something2.zip", :size => 1232},
     { :name => "something3.zip", :size => 1232},
     { :name => "something4.zip", :size => 1232},
-    { :name => "something5.zip", :size => 1232}
+    { :name => "something5.zip", :size => 1232},
+    { :name => "something6.zip", :size => 1232},
+    { :name => "something7.zip", :size => 1232},
+    { :name => "something8.zip", :size => 1232},
+    { :name => "something9.zip", :size => 1232},
+    { :name => "something10.zip", :size => 1232}
+
 ].to_json
 
 redis.set "euphoria", [
@@ -31,7 +37,13 @@ redis.set "euphoria", [
     { :name => "something2.zip", :size => 1232},
     { :name => "something3.zip", :size => 1232},
     { :name => "something4.zip", :size => 1232},
-    { :name => "something5.zip", :size => 1232}
+    { :name => "something5.zip", :size => 1232},
+    { :name => "something6.zip", :size => 1232},
+    { :name => "something7.zip", :size => 1232},
+    { :name => "something8.zip", :size => 1232},
+    { :name => "something9.zip", :size => 1232},
+    { :name => "something10.zip", :size => 1232}
+
 ].to_json
 
 get "/api/v0/getsystems" do

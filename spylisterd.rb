@@ -32,12 +32,12 @@ redis.set "euphoria", [
     { :name => "something5.zip", :size => 1232}
 ].to_json
 
-get "/api/v0/systems" do
+get "/api/v0/getsystems" do
     content_type :json
     redis.keys("*").to_json
 end
 
-get "/api/v0/systems/:system" do
+get "/api/v0/getsystem/:name" do
     content_type :json
-    redis.get(params["system"])
+    redis.get(params["name"])
 end

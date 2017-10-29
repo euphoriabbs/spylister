@@ -1,14 +1,15 @@
 
 "use strict";
 
+load("sbbsdefs.js")
 load("http.js");
 load("modopts.js");
 
-var SpyLister = function() {
+var SpyLister = function () {
 
     var server = "http://spylister.euphoriabbs.com/api/v0";
 
-    var getJSON = function(path) {
+    var getJSON = function (path) {
         try {
             return JSON.parse(
                 new HTTPRequest().Get(server + (typeof path == "undefined" ? "" : path))
@@ -19,9 +20,12 @@ var SpyLister = function() {
         }
     };
 
-    this.filelist = function(path) {
-        return getJSON("/filelist");
-    };
-};
+    this.list = {};
 
-log(SpyLister.filelist);
+    this.list.systems = function () {
+        return getJSON("/list/boards");
+    };
+    this.list.files = function (name) {
+        return getJSON("/list/files/" + name);    };
+
+};

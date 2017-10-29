@@ -16,6 +16,8 @@ enable  :sessions, :logging
 
 set :environment, :development
 
+set :bind, '0.0.0.0'
+
 redis.set "foo", [
     { :name => "something1.zip", :size => 1232},
     { :name => "something2.zip", :size => 1232},

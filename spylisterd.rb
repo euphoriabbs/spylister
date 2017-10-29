@@ -4,6 +4,7 @@
 require "rubygems"
 require "redis"
 require "json"
+require "timers"
 
 require "sinatra"
 require "sinatra/contrib/all"
@@ -38,12 +39,18 @@ redis.set "euphoria", [
 
 ].to_json
 
-get "/api/v0/getsystems" do
+get "/api/v0/getnodes" do
     content_type :json
     redis.keys("*").to_json
 end
 
-get "/api/v0/getsystem/:name" do
+get "/api/v0/getnode/:name" do
     content_type :json
     redis.get(params["name"])
 end
+
+#timers = Timers::Group.new
+
+#timers.now_and_every(5) { puts "Another 5 seconds" }
+
+#loop { timers.wait }

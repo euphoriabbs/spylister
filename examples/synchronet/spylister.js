@@ -7,7 +7,7 @@ load("modopts.js");
 
 var SpyLister = function () {
 
-    var server = "http://spylister.euphoriabbs.com/api/v0";
+    var server = "http://138.197.173.20:4567/api/v0";
 
     var getJSON = function (path) {
         try {
@@ -20,12 +20,13 @@ var SpyLister = function () {
         }
     };
 
-    this.list = {};
-
-    this.list.systems = function () {
-        return getJSON("/list/boards");
+    this.getnodes = function () {
+        return getJSON("/getnodes");
     };
-    this.list.files = function (name) {
-        return getJSON("/list/files/" + name);    };
-
+    this.getnode = function (name) {
+        return getJSON("/getnode/" + name);
+    };
 };
+
+log(SpyLister.getnodes());
+log(SpyLister.getnode("euphoria"));

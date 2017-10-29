@@ -30,19 +30,19 @@ end
 # Prints a combination of the progress bar, spinner, and percentage examples.
 spinner = Enumerator.new do |e|
     loop do
-      e.yield '|'
-      e.yield '/'
-      e.yield '-'
-      e.yield '\\'
+        e.yield '|'
+        e.yield '/'
+        e.yield '-'
+        e.yield '\\'
     end
-  end
+end
 
-  1.upto(100) do |i|
+1.upto 100 do |i|
     progress = "=" * (i/5) unless i < 5
-    printf("\rIndexing: [%-20s] %d%% %s", progress, i, spinner.next)
-    sleep(0.05)
-  end
-  printf("\r                                           ")
+    printf "\rIndexing: [%-20s] %d%% %s", progress, i, spinner.next
+    sleep 0.05
+end
+printf "\r                                           "
 
 # File Content
 
@@ -50,11 +50,13 @@ $r = RestClient.get "http://138.197.173.20:4567/api/v0/getsystems"
 
 $systems = JSON.parse $r.body
 
+puts "\r"
+
 $systems.each do |name|
     $r = RestClient.get "http://138.197.173.20:4567/api/v0/getsystem/#{name}"
 
-    puts "\n#{name.capitalize} BBS Files"
-    say("<%= color('`'*79, :horizontal_line) %>")
+    #puts "\n#{name.capitalize} BBS Files"
+    #say("<%= color('`'*79, :horizontal_line) %>")
 
     $files = JSON.parse $r
 

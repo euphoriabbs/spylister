@@ -18,16 +18,24 @@ enable  :sessions, :logging
 
 set :environment, :development
 
-set :bind, '0.0.0.0'
+set :bind, "0.0.0.0"
 
 redis = Redis.new
 
-pathes = []
+## Create Filebase
+
+filebase = []
 Find.find(settings.filebase) do |path|
-  pathes << path unless FileTest.directory?(path)
+  filebase.append(
+      {
+          :name => File.basename(path),
+          :metadata => {
+              :path => path
+            }
+        }) unless FileTest.directory?(path)
 end
 
-redis.set Socket.gethostname, pathes.to_json
+redis.set Socket.gethostname, filebase.to_json
 
 # API
 
@@ -42,6 +50,6 @@ get "/api/v0/getnode/:hostname" do
 end
 
 get "/api/v0/getnode/:hostname/:filename" do
-    content_type :json
+    #send_file "#{filename}", :filename => filename, :type => 'Application/octet-stream'
     #redis.get(params["hostname"])
 end

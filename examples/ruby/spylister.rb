@@ -1,22 +1,23 @@
 #!/usr/bin/env ruby
 # encoding: UTF-8
 
-require "rubygems"
-require "json"
 require "highline/import"
-require "rest-client"
 require "terminal-size"
+require "rest-client"
+require "json"
+require "yaml"
 
-ft = HighLine::ColorScheme.new do |cs|
-    cs[:title]        = [ :bold, :white, :on_black ]
-    cs[:headline]        = [ :bold, :white, :on_white ]
-    cs[:horizontal_line] = [ :bold, :white ]
-    cs[:footer]        = [ :bold, :green, :on_black ]
-    cs[:even_row]        = [ :blue ]
-    cs[:odd_row]         = [ :grey ]
+# Color Scheme
+theme = HighLine::ColorScheme.new do |style|
+    style[:title]              = [ :bold, :white, :on_black ]
+    style[:headline]           = [ :bold, :white, :on_white ]
+    style[:horizontal_line]    = [ :bold, :white ]
+    style[:footer]             = [ :bold, :green, :on_black ]
+    style[:even_row]           = [ :blue ]
+    style[:odd_row]            = [ :grey ]
 end
 
-HighLine.color_scheme = ft
+HighLine.color_scheme = theme
 
 # Header ANSI
 
@@ -46,30 +47,30 @@ printf "\r                                           "
 
 # File Content
 
-$r = RestClient.get "http://138.197.173.20:4567/api/v0/getsystems"
+nodes = RestClient.get "http://#{ARGV[0]}/api/v0/getnodes"
 
-$systems = JSON.parse $r.body
+systems = JSON.parse nodes.body
 
 puts "\r"
 
-$systems.each do |name|
-    $r = RestClient.get "http://138.197.173.20:4567/api/v0/getsystem/#{name}"
+systems.each do |name|
+    node = RestClient.get "http://#{ARGV[0]}/api/v0/getnode/#{name}"
 
     #puts "\n#{name.capitalize} BBS Files"
     #say("<%= color('`'*79, :horizontal_line) %>")
 
-    $files = JSON.parse $r
+    files = JSON.parse node
 
-    $switch = false
+    switch = false
 
-    $files.each do |filename|
+    files.each do |filename|
 
-        if $switch == true
+        if switch == true
             say "<%= color('#{filename.to_json}', :even_row ) %>"
-            $switch = false
+            switch = false
         else
             say "<%= color('#{filename.to_json}', :odd_row ) %>"
-            $switch = true
+            switch = true
         end
     end
 end

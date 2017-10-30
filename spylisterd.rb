@@ -4,7 +4,7 @@
 require "rubygems"
 require "redis"
 require "json"
-require "timers"
+#require "timers"
 
 require "sinatra"
 require "sinatra/contrib/all"
@@ -20,22 +20,22 @@ set :environment, :development
 set :bind, '0.0.0.0'
 
 redis.set "foo", [
-    { :name => "something1.zip", :description => "Minim ad ea dolore sit tempor commodo ullamco sunt.", :size => 1232},
-    { :name => "something2.zip", :description => "Minim ad ea dolore sit tempor commodo ullamco sunt.", :size => 1232},
-    { :name => "something3.zip", :description => "Minim ad ea dolore sit tempor commodo ullamco sunt.", :size => 1232},
-    { :name => "something4.zip", :description => "Minim ad ea dolore sit tempor commodo ullamco sunt.", :size => 1232},
-    { :name => "something5.zip", :description => "Minim ad ea dolore sit tempor commodo ullamco sunt.", :size => 1232},
-    { :name => "something6.zip", :description => "Minim ad ea dolore sit tempor commodo ullamco sunt.", :size => 1232},
-    { :name => "something7.zip", :description => "Minim ad ea dolore sit tempor commodo ullamco sunt.", :size => 1232},
-    { :name => "something8.zip", :description => "Minim ad ea dolore sit tempor commodo ullamco sunt.", :size => 1232}
+    { :name => "something1.zip", :description => "Minim ad ea dolore sit.", :size => 1232},
+    { :name => "something2.zip", :description => "Minim ad ea dolore sit.", :size => 1232},
+    { :name => "something3.zip", :description => "Minim ad ea dolore sit.", :size => 1232},
+    { :name => "something4.zip", :description => "Minim ad ea dolore sit.", :size => 1232},
+    { :name => "something5.zip", :description => "Minim ad ea dolore sit.", :size => 1232},
+    { :name => "something6.zip", :description => "Minim ad ea dolore sit.", :size => 1232},
+    { :name => "something7.zip", :description => "Minim ad ea dolore sit.", :size => 1232},
+    { :name => "something8.zip", :description => "Minim ad ea dolore sit.", :size => 1232}
 
 ].to_json
 
 redis.set "euphoria", [
-    { :name => "something1.zip", :description => "Minim ad ea dolore sit tempor commodo ullamco sunt.", :size => 1232},
-    { :name => "something2.zip", :description => "Minim ad ea dolore sit tempor commodo ullamco sunt.", :size => 1232},
-    { :name => "something3.zip", :description => "Minim ad ea dolore sit tempor commodo ullamco sunt.", :size => 1232},
-    { :name => "something4.zip", :description => "Minim ad ea dolore sit tempor commodo ullamco sunt.", :size => 1232}
+    { :name => "something1.zip", :description => "Minim ad ea dolore.", :size => 1232},
+    { :name => "something2.zip", :description => "Minim ad ea dolore.", :size => 1232},
+    { :name => "something3.zip", :description => "Minim ad ea dolore.", :size => 1232},
+    { :name => "something4.zip", :description => "Minim ad ea dolore.", :size => 1232}
 
 ].to_json
 

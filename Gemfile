@@ -9,3 +9,7 @@ gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'json'
 gem 'yaml'
+gem "digest"
+gem "find"
+gem "timer"
+

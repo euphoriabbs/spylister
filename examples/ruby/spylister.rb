@@ -7,7 +7,10 @@ require "rest-client"
 require "json"
 require "yaml"
 
-# Color Scheme
+require "timers"
+
+# SpyLister Color Scheme
+
 theme = HighLine::ColorScheme.new do |style|
     style[:title]              = [ :bold, :white, :on_black ]
     style[:headline]           = [ :bold, :white, :on_white ]
@@ -19,7 +22,7 @@ end
 
 HighLine.color_scheme = theme
 
-# Header ANSI
+# SpyLister ANSI Artwork
 
 system "clear" or system "cls"
 
@@ -28,7 +31,8 @@ IO.readlines("spylister.ans").each do |line|
     sleep 0.01
 end
 
-# Prints a combination of the progress bar, spinner, and percentage examples.
+# Progress Bar
+
 spinner = Enumerator.new do |e|
     loop do
         e.yield '|'
@@ -45,16 +49,15 @@ end
 end
 printf "\r                                           "
 
-# File Content
+# Get Nodes
 
 nodes = RestClient.get "http://#{ARGV[0]}/api/v0/getnodes"
-
-systems = JSON.parse nodes.body
+nodes = JSON.parse nodes.body
 
 puts "\r"
 
-systems.each do |name|
-    node = RestClient.get "http://#{ARGV[0]}/api/v0/getnode/#{name}"
+nodes.each do |node|
+    node = RestClient.get "http://#{ARGV[0]}/api/v0/getnode/#{node}"
 
     #puts "\n#{name.capitalize} BBS Files"
     #say("<%= color('`'*79, :horizontal_line) %>")
@@ -75,5 +78,14 @@ systems.each do |name|
     end
 end
 
+# Key Prompt
+
 puts ""
-ask("<%= color('Ready to quit?', :footer) %> ") { |q| q.default = "quit" }
+
+timers = Timers::Group.new
+
+timers.now_and_every(5) {
+    ask("\r<%= color('Ready to quit?', :footer) %> ") { |q| q.default = "quit" }
+}
+
+loop { timers.wait }

@@ -1,17 +1,18 @@
 #!/usr/bin/env ruby
 # encoding: UTF-8
 
-require "rubygems"
+require "digest"
+require "socket"
 require "redis"
 require "json"
-#require "timers"
+require "find"
 
 require "sinatra"
 require "sinatra/contrib/all"
 
-config_file "spylisterd.yml"
+# Setup
 
-redis = Redis.new
+config_file "spylisterd.yml"
 
 enable  :sessions, :logging
 
@@ -19,38 +20,28 @@ set :environment, :development
 
 set :bind, '0.0.0.0'
 
-redis.set "foo", [
-    { :name => "something1.zip", :description => "Minim ad ea dolore sit.", :size => 1232},
-    { :name => "something2.zip", :description => "Minim ad ea dolore sit.", :size => 1232},
-    { :name => "something3.zip", :description => "Minim ad ea dolore sit.", :size => 1232},
-    { :name => "something4.zip", :description => "Minim ad ea dolore sit.", :size => 1232},
-    { :name => "something5.zip", :description => "Minim ad ea dolore sit.", :size => 1232},
-    { :name => "something6.zip", :description => "Minim ad ea dolore sit.", :size => 1232},
-    { :name => "something7.zip", :description => "Minim ad ea dolore sit.", :size => 1232},
-    { :name => "something8.zip", :description => "Minim ad ea dolore sit.", :size => 1232}
+redis = Redis.new
 
-].to_json
+pathes = []
+Find.find(settings.filebase) do |path|
+  pathes << path unless FileTest.directory?(path)
+end
 
-redis.set "euphoria", [
-    { :name => "something1.zip", :description => "Minim ad ea dolore.", :size => 1232},
-    { :name => "something2.zip", :description => "Minim ad ea dolore.", :size => 1232},
-    { :name => "something3.zip", :description => "Minim ad ea dolore.", :size => 1232},
-    { :name => "something4.zip", :description => "Minim ad ea dolore.", :size => 1232}
+redis.set Socket.gethostname, pathes.to_json
 
-].to_json
+# API
 
 get "/api/v0/getnodes" do
     content_type :json
     redis.keys("*").to_json
 end
 
-get "/api/v0/getnode/:name" do
+get "/api/v0/getnode/:hostname" do
     content_type :json
-    redis.get(params["name"])
+    redis.get(params["hostname"])
 end
 
-#timers = Timers::Group.new
-
-#timers.now_and_every(5) { puts "Another 5 seconds" }
-
-#loop { timers.wait }
+get "/api/v0/getnode/:hostname/:filename" do
+    content_type :json
+    #redis.get(params["hostname"])
+end

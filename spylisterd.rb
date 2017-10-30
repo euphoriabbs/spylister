@@ -26,7 +26,7 @@ redis = Redis.new
 
 pathes = []
 Find.find(settings.filebase) do |path|
-  pathes << path unless FileTest.directory?(path)
+  pathes << {:name => File.basename(path), :path => path} unless FileTest.directory?(path)
 end
 
 redis.set Socket.gethostname, pathes.to_json

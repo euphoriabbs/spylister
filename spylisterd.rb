@@ -24,18 +24,12 @@ redis = Redis.new
 
 ## Create Filebase
 
-filebase = []
+pathes = []
 Find.find(settings.filebase) do |path|
-  filebase.append(
-      {
-          :name => File.basename(path),
-          :metadata => {
-              :path => path
-            }
-        }) unless FileTest.directory?(path)
+  pathes << path unless FileTest.directory?(path)
 end
 
-redis.set Socket.gethostname, filebase.to_json
+redis.set Socket.gethostname, pathes.to_json
 
 # API
 

@@ -26,37 +26,23 @@ HighLine.color_scheme = theme
 
 # SpyLister ANSI Artwork
 
-system "clear" or system "cls"
+def header_ansi
+    system "clear" or system "cls"
 
-IO.readlines("spylister.ans").each do |line|
-    puts line.force_encoding(Encoding::IBM437).encode(Encoding::UTF_8)
-    sleep 0.01
-end
+    rows, columns = $stdin.winsize
 
-# Progress Bar
-
-spinner = Enumerator.new do |e|
-    loop do
-        e.yield '|'
-        e.yield '/'
-        e.yield '-'
-        e.yield '\\'
+    IO.readlines("spylister.ans").each do |line|
+        puts line.force_encoding(Encoding::IBM437).encode(Encoding::UTF_8)
+        #sleep 0.01
     end
 end
 
-1.upto 100 do |i|
-    progress = "=" * (i/5) unless i < 5
-    printf "\rIndexing: [%-20s] %d%% %s", progress, i, spinner.next
-    sleep 0.05
-end
-printf "\r                                           "
+header_ansi
 
 # Get Nodes
 
 nodes = RestClient.get "http://#{ARGV[0]}/api/v0/getnodes"
 nodes = JSON.parse nodes.body
-
-puts ""
 
 nodes.each do |node|
     node = RestClient.get "http://#{ARGV[0]}/api/v0/getnode/#{node}"
@@ -68,30 +54,26 @@ nodes.each do |node|
 
     switch = false
 
+    console_counter = 0
+
     files.each do |file|
+        console_counter += 1
+
+        rows, columns = $stdin.winsize
 
         if switch == true
-            say "<%= color('#{file.to_json}', :even_row ) %>"
+            say "<%= color('#{file.to_json[0..(columns - 1)]}', :even_row ) %>"
             switch = false
         else
-            say "<%= color('#{file.to_json}', :odd_row ) %>"
+            say "<%= color('#{file.to_json[0..(columns - 1)]}', :odd_row ) %>"
             switch = true
+        end
+
+        if console_counter >= (rows - 10)
+            puts ""
+            system "press-enter 6 green"
+            console_counter = 0
+            header_ansi
         end
     end
 end
-
-# Key Prompt
-
-puts ""
-
-timers = Timers::Group.new
-
-timers.now_and_every(1) {
-    rows, columns = $stdin.winsize
-    time = DateTime.now()
-
-    printf "\r: :: #{time} - #{columns}x#{rows}"
-    #ask("\r<%= color('Ready to quit?', :footer) %> ") { |q| q.default = "quit" }
-}
-
-loop { timers.wait }

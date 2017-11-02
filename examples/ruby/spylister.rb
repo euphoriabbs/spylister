@@ -5,7 +5,6 @@ require "highline/import"
 require "terminal-size"
 require "rest-client"
 require "json"
-require "yaml"
 
 require "timers"
 require "io/console"
@@ -13,13 +12,13 @@ require "io/console"
 # SpyLister Color Scheme
 
 theme = HighLine::ColorScheme.new do |style|
-    style[:title]              = [ :bold, :white, :on_black ]
-    style[:headline]           = [ :bold, :white, :on_white ]
-    style[:horizontal_line]    = [ :bold, :white ]
-    style[:footer]             = [ :bold, :green, :on_black ]
-    style[:even_row]           = [ :blue ]
-    style[:odd_row]            = [ :grey ]
-    style[:winsize]             = [ :bold, :red, :on_grey ]
+    style[:title]           = [ :bold, :white, :on_black ]
+    style[:headline]        = [ :bold, :white, :on_white ]
+    style[:horizontal_line] = [ :bold, :white ]
+    style[:footer]          = [ :bold, :green, :on_black ]
+    style[:even_row]        = [ :blue ]
+    style[:odd_row]         = [ :grey ]
+    style[:winsize]         = [ :bold, :red, :on_grey ]
 end
 
 HighLine.color_scheme = theme
@@ -27,9 +26,8 @@ HighLine.color_scheme = theme
 # SpyLister ANSI Artwork
 
 def header_ansi
-    system "clear" or system "cls"
 
-    rows, columns = $stdin.winsize
+    system "clear" or system "cls"
 
     IO.readlines("spylister.ans").each do |line|
         puts line.force_encoding(Encoding::IBM437).encode(Encoding::UTF_8)
@@ -71,7 +69,7 @@ nodes.each do |node|
 
         if console_counter >= (rows - 10)
             puts ""
-            system "press-enter 6 green"
+            system "press-enter 8 green"
             console_counter = 0
             header_ansi
         end

@@ -1,5 +1,5 @@
 <p align=left>
-    <img src="screenshots/spylister-0.0.1.png" width="300"/>
+    <img src="screenshots/spylister-0.0.1.png" width="500"/>
 </p>
 
 # spylister
